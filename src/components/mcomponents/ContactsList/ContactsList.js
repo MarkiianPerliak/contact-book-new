@@ -1,8 +1,9 @@
 import { useSelector } from "react-redux";
 import { Contact } from "../Contact/Contact";
+import { selectVisibleContacts } from "../../../redux/selectors";
 
 export const ContactsList = () => {
-  const contacts = useSelector(state => state.filteredContacts)
+  const contacts = useSelector(selectVisibleContacts)
   return (
         <ul>
       {contacts.map(contact => (
