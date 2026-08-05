@@ -1,4 +1,4 @@
-import { addContact } from "../../../redux/actions";
+import { addContact } from "../../../redux/reducer";
 import { useDispatch } from "react-redux";
 
 export const ContactForm = () => {

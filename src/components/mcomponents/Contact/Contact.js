@@ -1,4 +1,4 @@
-import { removeContact, saveContact } from "../../../redux/actions";
+import { removeContact, saveContact } from "../../../redux/reducer";
 import { useDispatch } from "react-redux";
 
 export const Contact = ({contact}) => {

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { changeFilter } from "../../../redux/actions";
+import { changeFilter } from "../../../redux/reducer";
 import { filterValue } from "../../../redux/constants";
 
 export const StatusFilter = () => {
