@@ -1,29 +1,14 @@
 import { act } from 'react';
 import { actionType, filterValue } from './constants';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
+import { addContacts, checkContact, deleteContacts, getContacts } from "./operation";
 
 const initialState = {
-  contacts: [
-    {
-      id: crypto.randomUUID(),
-      text: 'Friend',
-      number: '09764946782',
-      saved: false,
-    },
-    {
-      id: crypto.randomUUID(),
-      text: 'Friend 1',
-      number: '09735434564',
-      saved: false,
-    },
-    {
-      id: crypto.randomUUID(),
-      text: 'Friend 2',
-      number: '09762096865',
-      saved: true,
-    },
-  ],
+  contacts: [],
   filter: filterValue.all,
+  isloading: false,
+  errorMessage: "",
+  addContactLoader: false
 };
 
 // export const contactsReducer = (state = initialState, action) => {
@@ -60,44 +45,81 @@ const initialState = {
 const contactsSlice = createSlice({
   name: 'Contacts',
   initialState,
-  reducers: {
-    addContact: {
-      reducer: (state, action) => {
-        state.contacts.push(action.payload);
-      },
-      prepare: (text, number) => {
-        return {
-          payload: {
-            id: crypto.randomUUID(),
-            text: text,
-            number: number,
-            saved: false,
-          },
-        };
-      },
-    },
-    removeContact: {
-      reducer: (state, action) => {
-        state.contacts = state.contacts.filter(
-          contact => contact.id !== action.payload
-        );
-      },
-    },
-    saveContact: {
-      reducer: (state, action) => {
-        state.contacts = state.contacts.map(contact =>
-          contact.id === action.payload
-            ? { ...contact, saved: !contact.saved }
-            : contact
-        );
-      },
-    },
-    changeFilter: {
-      reducer: (state, action) => {
-        state.filter = action.payload;
-      },
-    },
-  },
+  // reducers: {
+  //   // addContact: {
+  //   //   reducer: (state, action) => {
+  //   //     state.contacts.push(action.payload);
+  //   //   },
+  //   //   prepare: (text, number) => {
+  //   //     return {
+  //   //       payload: {
+  //   //         id: crypto.randomUUID(),
+  //   //         text: text,
+  //   //         number: number,
+  //   //         saved: false,
+  //   //       },
+  //   //     };
+  //   //   },
+  //   // },
+  //   // removeContact: {
+  //   //   reducer: (state, action) => {
+  //   //     state.contacts = state.contacts.filter(
+  //   //       contact => contact.id !== action.payload
+  //   //     );
+  //   //   },
+  //   // },
+  //   // saveContact: {
+  //   //   reducer: (state, action) => {
+  //   //     state.contacts = state.contacts.map(contact =>
+  //   //       contact.id === action.payload
+  //   //         ? { ...contact, saved: !contact.saved }
+  //   //         : contact
+  //   //     );
+  //   //   },
+  //   // },
+  //   // changeFilter: {
+  //   //   reducer: (state, action) => {
+  //   //     state.filter = action.payload;
+  //   //   },
+  //   // },
+  // },
+  extraReducers: (builder) => {
+    builder.addCase(getContacts.fulfilled, (state, action) => {
+      state.isloading = false
+      state.contacts = action.payload
+    }),
+    builder.addCase(getContacts.rejected, (state, action) => {
+      state.isloading = false
+      state.errorMessage = action.payload
+    }),
+    builder.addCase(getContacts.pending, (state, action) => {
+      state.isloading = true
+      state.errorMessage = ""
+    }),
+
+
+    builder.addCase(addContacts.fulfilled, (state, action) => {
+      state.addContactLoader = false
+      state.contacts.push(action.payload);
+    }),
+    builder.addCase(addContacts.rejected, (state, action) => {
+      state.addContactLoader = false
+      state.errorMessage = action.payload
+    }),
+    builder.addCase(addContacts.pending, (state, action) => {
+      state.addContactLoader = true
+    }),
+
+
+    builder.addCase(deleteContacts.fulfilled, (state, action) => {
+      state.contacts = state.contacts.filter((contact) => contact.id !== action.payload);
+    }),
+    builder.addCase(checkContact.fulfilled, (state, action) => {
+      state.contacts = state.contacts.map((contact) => contact.id === action.payload ? {...contact, saved: !contact.saved} : contact);
+    })
+  }
 });
+
+
 export const { addContact, removeContact, saveContact, changeFilter } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

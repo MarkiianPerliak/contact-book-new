@@ -1,12 +1,13 @@
-import { addContact } from "../../../redux/reducer";
+
 import { useDispatch } from "react-redux";
+import { addContacts } from "../../../redux/operation";
 
 export const ContactForm = () => {
   const dispatch = useDispatch()
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
-    dispatch(addContact(form.elements.text.value, form.elements.number.value))
+    dispatch(addContacts({text: form.elements.text.value, number: form.elements.number.value}))
     form.reset();
   };
   return (

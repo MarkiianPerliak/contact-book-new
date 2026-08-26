@@ -1,4 +1,4 @@
-import { removeContact, saveContact } from "../../../redux/reducer";
+import { deleteContacts, checkContact } from "../../../redux/operation";
 import { useDispatch } from "react-redux";
 
 export const Contact = ({contact}) => {
@@ -7,11 +7,11 @@ export const Contact = ({contact}) => {
         <div>
       <p>{contact.text}</p>
       <p>Number: {contact.number}</p>
-            <input onChange={() => dispatch(saveContact(contact.id))}
+            <input onChange={() => dispatch(checkContact({id: contact.id, saved: contact.saved}))}
         type="checkbox"
         checked={contact.saved}
       />
-      <button style={{ marginLeft: "20px" }} onClick={() => dispatch(removeContact(contact.id))}>Remove Contact</button>
+      <button style={{ marginLeft: "20px" }} onClick={() => dispatch(deleteContacts(contact.id, contact))}>Remove Contact</button>
     </div>
   )
 }

@@ -24,7 +24,6 @@ const persisterReducer = persistReducer(persistConfig, contactsReducer);
 
 const rootReduce = combineReducers({
   contacts: persisterReducer,
-//   filter: filterReducer,
 });
 
 
