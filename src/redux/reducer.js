@@ -45,45 +45,8 @@ const initialState = {
 const contactsSlice = createSlice({
   name: 'Contacts',
   initialState,
-  // reducers: {
-  //   // addContact: {
-  //   //   reducer: (state, action) => {
-  //   //     state.contacts.push(action.payload);
-  //   //   },
-  //   //   prepare: (text, number) => {
-  //   //     return {
-  //   //       payload: {
-  //   //         id: crypto.randomUUID(),
-  //   //         text: text,
-  //   //         number: number,
-  //   //         saved: false,
-  //   //       },
-  //   //     };
-  //   //   },
-  //   // },
-  //   // removeContact: {
-  //   //   reducer: (state, action) => {
-  //   //     state.contacts = state.contacts.filter(
-  //   //       contact => contact.id !== action.payload
-  //   //     );
-  //   //   },
-  //   // },
-  //   // saveContact: {
-  //   //   reducer: (state, action) => {
-  //   //     state.contacts = state.contacts.map(contact =>
-  //   //       contact.id === action.payload
-  //   //         ? { ...contact, saved: !contact.saved }
-  //   //         : contact
-  //   //     );
-  //   //   },
-  //   // },
-  //   // changeFilter: {
-  //   //   reducer: (state, action) => {
-  //   //     state.filter = action.payload;
-  //   //   },
-  //   // },
-  // },
   extraReducers: (builder) => {
+    
     builder.addCase(getContacts.fulfilled, (state, action) => {
       state.isloading = false
       state.contacts = action.payload
@@ -121,5 +84,5 @@ const contactsSlice = createSlice({
 });
 
 
-export const { addContact, removeContact, saveContact, changeFilter } = contactsSlice.actions;
+export const { addContact, removeContact, saveContact } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

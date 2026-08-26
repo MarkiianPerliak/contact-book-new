@@ -1,3 +1,5 @@
+import { createSelector } from '@reduxjs/toolkit'
+
 import { filterValue } from "./constants"
 
 export const selectContacts = (state) => state.contacts.contacts
@@ -10,12 +12,17 @@ export const selectErrorMessage = (state) => state.contacts.errorMessage
 
 export const selectAddContactLoader = (state) => state.contacts.addContactLoader
 
-export const selectVisibleContacts = (state) => {return state.contacts.contacts.filter((contact) => {
-    switch (state.contacts.filter) {
+
+export const selectVisibleContacts = createSelector(
+  [selectContacts, selectFilter], (contacts, filter) => {
+    switch (filter) {
       case filterValue.saved:
-      return contact.saved === true
+      return contacts.filter((contact) => {
+        return contact.saved === true
+      })
     
       default:
-      return true
+      return contacts
     }
-  })}
+  }
+)
