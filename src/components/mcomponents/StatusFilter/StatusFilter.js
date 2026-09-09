@@ -3,11 +3,16 @@ import { changeFilter } from "../../../redux/filterReducer";
 import { filterValue } from "../../../redux/constants";
 
 export const StatusFilter = () => {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
   return (
-    <div className="wrapper">
-        <button onClick={() => dispatch(changeFilter(filterValue.all))}>All</button>
-        <button onClick={() => dispatch(changeFilter(filterValue.saved))}>Saved</button>
+    <div className="filter-group">
+      <button className="filter-btn" onClick={() => dispatch(changeFilter(filterValue.all))}>
+        All
+      </button>
+      <button className="filter-btn" onClick={() => dispatch(changeFilter(filterValue.saved))}>
+        Saved
+      </button>
     </div>
-  )
-}
+  );
+};
