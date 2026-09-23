@@ -40,9 +40,8 @@ export const deleteContacts = createAsyncThunk("contacts/delete",
 export const checkContact = createAsyncThunk("contacts/put", 
     async ({id, ...task}, {rejectWithValue}) => {
             try {
-                
                 const {data} = await axios.put(`https://6a8edbd1a12b7de8cc0f0f15.mockapi.io/phones/${id}`, {saved: !task.saved})
-                return id
+                return data
             } catch (error) {
                 return rejectWithValue(error.message)
             }

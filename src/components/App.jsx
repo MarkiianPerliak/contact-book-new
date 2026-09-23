@@ -10,6 +10,7 @@ export const App = () => {
   const loadingmessage = useSelector(selectIsLoading)
   useEffect(() => {
     dispatch(getContacts());
+    console.log("dispatched")
   }, []);
   return (
     <div>

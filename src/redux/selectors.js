@@ -1,8 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit'
-
+import { contactAdapter } from './reducer'
 import { filterValue } from "./constants"
 
-export const selectContacts = (state) => state.contacts.contacts
+export const { selectAll:selectContacts, selectIds, selectById } = contactAdapter.getSelectors(state => state.contacts)
+
 
 export const selectFilter = (state) => state.filter.filter
 

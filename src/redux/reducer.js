@@ -1,16 +1,18 @@
 import { act } from 'react';
 import { actionType, filterValue } from './constants';
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice, current, createEntityAdapter } from '@reduxjs/toolkit';
 import { addContacts, checkContact, deleteContacts, getContacts } from "./operation";
 
-const initialState = {
-  contacts: [],
-  filter: filterValue.all,
-  isloading: false,
-  errorMessage: "",
-  addContactLoader: false
-};
-
+// const initialState = {
+//   contacts: [],
+//   filter: filterValue.all,
+//   isloading: false,
+//   errorMessage: "",
+//   addContactLoader: false
+// };
+export const contactAdapter = createEntityAdapter();
+console.log(contactAdapter)
+const initialState = contactAdapter.getInitialState({isloading: false, errorMessage: "", addContactLoader: false})
 // export const contactsReducer = (state = initialState, action) => {
 //     switch (action.type) {
 //         case actionType.addType:
@@ -49,36 +51,36 @@ const contactsSlice = createSlice({
     
     builder.addCase(getContacts.fulfilled, (state, action) => {
       state.isloading = false
-      state.contacts = action.payload
-    }),
+      contactAdapter.setAll(state, action.payload)
+    })
     builder.addCase(getContacts.rejected, (state, action) => {
       state.isloading = false
       state.errorMessage = action.payload
-    }),
+    })
     builder.addCase(getContacts.pending, (state, action) => {
       state.isloading = true
       state.errorMessage = ""
-    }),
+    })
 
 
     builder.addCase(addContacts.fulfilled, (state, action) => {
       state.addContactLoader = false
-      state.contacts.push(action.payload);
-    }),
+      contactAdapter.addOne(state, action.payload)
+    })
     builder.addCase(addContacts.rejected, (state, action) => {
       state.addContactLoader = false
       state.errorMessage = action.payload
-    }),
+    })
     builder.addCase(addContacts.pending, (state, action) => {
       state.addContactLoader = true
-    }),
+    })
 
 
     builder.addCase(deleteContacts.fulfilled, (state, action) => {
-      state.contacts = state.contacts.filter((contact) => contact.id !== action.payload);
-    }),
+      contactAdapter.removeOne(state, action.payload)
+    })
     builder.addCase(checkContact.fulfilled, (state, action) => {
-      state.contacts = state.contacts.map((contact) => contact.id === action.payload ? {...contact, saved: !contact.saved} : contact);
+      contactAdapter.updateOne(state, {id: action.payload.id, changes: action.payload})
     })
   }
 });

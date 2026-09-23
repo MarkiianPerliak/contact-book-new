@@ -1,29 +1,29 @@
 import { deleteContacts, checkContact } from '../../../redux/operation';
-import { useDispatch } from 'react-redux';
-
-export const Contact = ({ contact }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { selectById } from "../../../redux/selectors";
+export const Contact = ({ contactid }) => {
   const dispatch = useDispatch();
-
+  const contactInfo = useSelector(state => selectById(state, contactid))
   return (
     <div className="contact-card">
-      <p className="contact-name">{contact.text}</p>
-      <p className="contact-number">Number: {contact.number}</p>
+      <p className="contact-name">{contactInfo.text}</p>
+      <p className="contact-number">Number: {contactInfo.number}</p>
 
       <div className="contact-meta">
         <label className="contact-toggle">
           <input
             onChange={() =>
-              dispatch(checkContact({ id: contact.id, saved: contact.saved }))
+              dispatch(checkContact(contactInfo))
             }
             type="checkbox"
-            checked={contact.saved}
+            checked={contactInfo.saved}
           />
           Saved
         </label>
 
         <button
           className="delete-btn"
-          onClick={() => dispatch(deleteContacts(contact.id, contact))}
+          onClick={() => dispatch(deleteContacts(contactInfo.id, contactInfo))}
         >
           Remove
         </button>

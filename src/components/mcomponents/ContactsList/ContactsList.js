@@ -1,8 +1,11 @@
 import { useSelector } from 'react-redux';
 import { Contact } from '../Contact/Contact';
-import { selectVisibleContacts } from '../../../redux/selectors';
+import { selectVisibleContacts, selectIds } from '../../../redux/selectors';
 
 export const ContactsList = () => {
+  console.log("boutto")
+  const contactsIds = useSelector(selectIds)
+  console.log(contactsIds)
   const contacts = useSelector(selectVisibleContacts);
 
   if (!contacts.length) {
@@ -15,9 +18,9 @@ export const ContactsList = () => {
 
   return (
     <ul className="contacts-list">
-      {contacts.map(contact => (
-        <li className="contact-item" key={contact.id}>
-          <Contact contact={contact} />
+      {contactsIds.map(contactid => (
+        <li className="contact-item" key={contactid}>
+          <Contact contactid={contactid} />
         </li>
       ))}
     </ul>
