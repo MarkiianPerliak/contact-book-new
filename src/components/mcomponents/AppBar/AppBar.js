@@ -2,7 +2,7 @@ import { StatusFilter } from '../StatusFilter/StatusFilter';
 import { ContactsList } from '../ContactsList/ContactsList';
 import { ContactForm } from '../ContactForm/ContactForm';
 
-export const AppBar = () => {
+const AppBar = () => {
   return (
     <div className="app-shell">
       <section>
@@ -20,3 +20,5 @@ export const AppBar = () => {
     </div>
   );
 };
+
+export default AppBar
