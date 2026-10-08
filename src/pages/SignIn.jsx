@@ -19,6 +19,7 @@ import ColorModeSelect from '../theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../components/CustomIcons';
 import { logIn } from '../redux/user/userOperations';
 import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -222,12 +223,13 @@ export default function SignIn(props) {
             <Typography sx={{ textAlign: 'center' }}>
               Don&apos;t have an account?{' '}
               <Link
-                href="/material-ui/getting-started/templates/sign-in/"
                 variant="body2"
                 sx={{ alignSelf: 'center' }}
               >
-                Sign up
+                
+                <NavLink to={`/signup`}>Sign up</NavLink>
               </Link>
+              
             </Typography>
           </Box>
         </Card>

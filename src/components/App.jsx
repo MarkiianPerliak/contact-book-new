@@ -1,3 +1,5 @@
+import { PrivateRoutes } from "./routes/Private";
+import { RestrictedRoutes } from "./routes/Restricted";
 import { getContacts } from "../redux/operation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -11,7 +13,7 @@ import { refreshUser } from "../redux/user/userOperations";
 const SignIn = lazy(() => import("../pages/SignIn"))
 const SignUp = lazy(() => import("../pages/SignUp"))
 const Contacts = lazy(() => import("./mcomponents/AppBar/AppBar"))
-import { privateRoutes } from "./routes/private";
+
 
 export const App = () => {
     const dispatch = useDispatch();
@@ -27,9 +29,9 @@ export const App = () => {
     <Navigation />
     <Suspense>
       <Routes>
-        <Route path="/" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/contacts" element={<privateRoutes><Contacts /></privateRoutes>} />
+        <Route path="/" element={<RestrictedRoutes><SignIn /></RestrictedRoutes>} />
+        <Route path="/signup" element={<RestrictedRoutes><SignUp /></RestrictedRoutes>} />
+        <Route path="/contacts" element={<PrivateRoutes><Contacts /></PrivateRoutes>} />
       </Routes>
       </Suspense>
     </div>
